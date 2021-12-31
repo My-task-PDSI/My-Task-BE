@@ -17,21 +17,6 @@ const login = async (request, response) => {
           });
 
     }
-
-
-	// 	connection.query('SELECT * FROM usuarios WHERE username = ? AND password = ?', [username, password], function(error, results, fields) {
-	// 		if (results.length > 0) {
-	// 			
-	// 			response.redirect('/home');
-	// 		} else {
-	// 			response.send('Incorrect Username and/or Password!');
-	// 		}			
-	// 		response.end();
-	// 	});
-	// } else {
-	// 	response.send('Please enter Username and Password!');
-	// 	response.end();
-	// }
 }
 
 const signup = async (req, res) => {
