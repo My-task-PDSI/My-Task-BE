@@ -1,7 +1,7 @@
 const database = require("../../services/database")
 
 const login = async (request, response) => {
-	var username = request.body.email;
+	var username = request.body.username;
 	var password = request.body.password;
 
 	console.log(`${username}\n${password}`)
@@ -9,20 +9,19 @@ const login = async (request, response) => {
         database.query(`SELECT * FROM users WHERE username = '${username}' AND password = '${password}'`, function (err, result, fields) {
             if (err) throw err;
             console.log("resultado busca: " + JSON.stringify(result) );
+            if (result.length == 0) {
+                return response.sendStatus(404);
+            } else {
+                return response.sendStatus(200)
+            }
           });
 
-        // if (results._results.length == 0) {
-        //     return response.sendStatus(404);
-        // } else {
-        //     return response.send("ok")
-        // }
     }
 
 
 	// 	connection.query('SELECT * FROM usuarios WHERE username = ? AND password = ?', [username, password], function(error, results, fields) {
 	// 		if (results.length > 0) {
-	// 			request.session.loggedin = true;
-	// 			request.session.email = email;
+	// 			
 	// 			response.redirect('/home');
 	// 		} else {
 	// 			response.send('Incorrect Username and/or Password!');
