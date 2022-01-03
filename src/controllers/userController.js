@@ -1,4 +1,4 @@
-const database = require("../../services/database")
+const database = require("../services/database")
 
 const login = async (request, response) => {
 	var username = request.body.username;

@@ -22,13 +22,14 @@ const create = async (req, res) => {
 }
 
 const readAll = async (req, res) => {
-    const idGroup = req.body
+    const idGroup = req.params.idGroup
 
+    console.log(idGroup);
     try {
         database.query(`SELECT * FROM tasks WHERE idGroup = ${idGroup}`, function (err, result) {
             if(err) throw err
             if (result.length == 0) {
-                return res.sendStatus(404) // NÃO EXISTEM TAREFAS NO GRUPO
+                return res.send(404) // NÃO EXISTEM TAREFAS NO GRUPO
             } else {
                 return res.send(result) // ENVIAR TASKS PARA O FRONTEND
             }

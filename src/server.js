@@ -6,7 +6,8 @@ var path = require('path');
 
 var app = express();
 
-const userController = require("./controllers/userController")
+const userController = require("./controllers/userController");
+const taskController = require("./controllers/taskController")
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "http://localhost:8080");
@@ -26,6 +27,8 @@ app.use(bodyParser.json());
 app.post('/auth', userController.login)
 
 app.post('/signup', userController.signup)
+
+app.get('/task-groups/:idGroup', taskController.readAll)
 
 app.get('/home', function(request, response) {
 	if (request.session.loggedin) {
