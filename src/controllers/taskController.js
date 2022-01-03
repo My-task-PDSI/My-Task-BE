@@ -26,13 +26,18 @@ const readAll = async (req, res) => {
 
     console.log(idGroup);
     try {
-        database.query(`SELECT * FROM tasks WHERE idGroup = ${idGroup}`, function (err, result) {
+        database.query(`SELECT * FROM groups WHERE idGroup = ${idGroup}`, function (err, result) {
             if(err) throw err
-            if (result.length == 0) {
-                return res.send(404) // NÃO EXISTEM TAREFAS NO GRUPO
-            } else {
-                return res.send(result) // ENVIAR TASKS PARA O FRONTEND
-            }
+            let group = result
+            database.query(`SELECT * FROM tasks WHERE idGroup = ${idGroup}`, function (err, result) {
+                let tasks = result
+                if(err) throw err
+                if (group.length == 0) {
+                    return res.send(404) // NÃO EXISTEM TAREFAS NO GRUPO
+                } else {
+                    return res.send({ group, tasks }) // ENVIAR TASKS PARA O FRONTEND
+                }
+            })
         })
     } catch (error) {
         return res.sendStatus(500)

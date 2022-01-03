@@ -8,6 +8,7 @@ var app = express();
 
 const userController = require("./controllers/userController");
 const taskController = require("./controllers/taskController")
+const groupController = require("./controllers/groupController")
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "http://localhost:8080");
@@ -28,7 +29,8 @@ app.post('/auth', userController.login)
 
 app.post('/signup', userController.signup)
 
-app.get('/task-groups/:idGroup', taskController.readAll)
+app.get('/task-groups/all', groupController.readAll) // MOSTRAR TODOS OS GRUPOS CADASTRADOS
+app.get('/task-groups/:idGroup', taskController.readAll) // MOSTRAR TODAS AS TASKS DE UM GRUPO
 
 app.get('/home', function(request, response) {
 	if (request.session.loggedin) {
