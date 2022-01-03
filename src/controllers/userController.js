@@ -6,7 +6,7 @@ const login = async (request, response) => {
 
 	console.log(`${username}\n${password}`)
 	if (username && password) {
-        await database.query(`SELECT * FROM users WHERE username = '${username}' AND password = '${password}'`, function (err, result, fields) {
+        database.query(`SELECT * FROM users WHERE username = '${username}' AND password = '${password}'`, function (err, result, fields) {
             if (err) throw err;
             console.log("resultado busca: " + JSON.stringify(result) );
             if (result.length == 0) {
