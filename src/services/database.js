@@ -19,18 +19,21 @@ database.connect(async function (error) {
 							password VARCHAR(20)
 					   )`
 
-	await database.query(createUsers)
+	await database.query(createUsers, function () {
+		console.log("Tabela de usuários criada!");
+	})
 
 	var createTask_group = `CREATE TABLE IF NOT EXISTS task_group (
 								idGroup int primary key auto_increment, 
-								idUser int, 
-								CONSTRAINT fkUser FOREIGN KEY (idUser) REFERENCES users(idUser),
+								idUser int,
 								title VARCHAR(20),
 								description VARCHAR(50),
 								creationDate DATETIME
 							)`
 
-	await database.query(createTask_group)
+	await database.query(createTask_group, function () {
+		console.log("Tabela de grupos criada!");
+	})
 	
 	var createTasks = `CREATE TABLE IF NOT EXISTS tasks (
 							idTask int primary key auto_increment,
@@ -42,7 +45,9 @@ database.connect(async function (error) {
 							updateDate DATETIME
 					  )`
 	
-	await database.query(createTasks)
+	await database.query(createTasks, function () {
+		console.log("Tabela de tarefas criada!");
+	})
 
 	var createNotifications = `CREATE TABLE IF NOT EXISTS notifications (
 							idNotification int primary key auto_increment,
@@ -55,7 +60,9 @@ database.connect(async function (error) {
 							creationDate DATETIME
 						 )`
 
-	await database.query(createNotifications)
+	await database.query(createNotifications, function () {
+		console.log("Tabela de notificações criada!");
+	})
 })
 
 module.exports = database
