@@ -29,11 +29,11 @@ const signup = async (req, res) => {
             if (result.length == 0) {
                 database.query('INSERT INTO users(name,username,password,email) VALUES(?,?,?,?)', [name, username, password, email], function(error, results) {
                     console.log("Usuário inserido com sucesso!");
-                    return res.sendStatus(200)
+                    return res.send(200,{status: "Usuario cadastrado com sucesso"} )
                 });
             } else {
                 console.log("Usuário já existente");
-                return res.sendStatus(403)
+                return res.send(403,{error: "Usuario ja cadastrado"});
             }
           });
     } catch (error) {
