@@ -28,6 +28,7 @@ app.use(bodyParser.json());
 app.post('/auth', userController.login)
 
 app.post('/signup', userController.signup)
+app.delete('/signup', userController.deleteUser)
 
 app.post('/task-groups', groupController.create)
 app.get('/task-groups', groupController.readAll) // MOSTRAR TODOS OS GRUPOS CADASTRADOS
