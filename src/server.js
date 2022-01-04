@@ -30,7 +30,7 @@ app.post('/auth', userController.login)
 app.post('/signup', userController.signup)
 
 app.post('/task-groups', groupController.create)
-app.get('/task-groups/all', groupController.readAll) // MOSTRAR TODOS OS GRUPOS CADASTRADOS
+app.get('/task-groups', groupController.readAll) // MOSTRAR TODOS OS GRUPOS CADASTRADOS
 app.get('/task-groups/:idGroup', taskController.readAll) // MOSTRAR TODAS AS TASKS DE UM GRUPO
 
 app.get('/home', function(request, response) {
