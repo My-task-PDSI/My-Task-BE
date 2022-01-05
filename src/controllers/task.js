@@ -22,6 +22,7 @@ async function findAllTasksFromGroup(req, res) {
 	const idGroup = req.params.idGroup;
 	const { Task } = database.model;
 
+	console.log(`Id grupo: ${idGroup} `)
 	try {
 		const result = await Task.findAllTasksFromGroup(idGroup);
 		if (result) {

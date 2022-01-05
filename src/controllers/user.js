@@ -13,10 +13,10 @@ async function login(request, response) {
 			const result = await User.findWithNameAndPassword(username, password);
 			console.log("resultado busca: ", result);
 
-			if (result) {
-				return response.sendStatus(200);
+			if (result.length > 0) {
+				return response.status(200).send({ status: "Usuário encontrado" })
 			}
-			return response.sendStatus(404);
+			return response.status(404).send({ error: "Usuário não encontrado" });
 
 		}
 		return response.sendStatus(200)
@@ -32,7 +32,7 @@ async function signup(req, res) {
 
 	try {
 		const result = await User.findUser(name, username, email);
-		if (result) {
+		if (result.length > 0) {
 			console.log("Usuário já existente");
 			return res.sendStatus(403)
 		} else {

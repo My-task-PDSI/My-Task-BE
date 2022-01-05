@@ -7,6 +7,7 @@ router.post('/', taskGroupController.create);
 router.delete('/', taskGroupController.deleteGroup);
 
 router.get('/all', taskGroupController.getAll);
+router.get('/:idGroup', taskGroupController.getOne)
 router.get('/tasks/:idGroup', taskController.findAllTasksFromGroup);
 
 module.exports = router;

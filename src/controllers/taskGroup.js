@@ -1,12 +1,15 @@
 const { database, initialize } = require("../models/database");
 initialize();
 
+
+
 async function create(req, res) {
 	const { title, description, idUser } = req.body
 
+	const { TaskGroup } = database.model;
+
 	console.log(`newGroup: ${title} | ${description}`);
 
-	const { TaskGroup } = database.model;
 	try {
 		await TaskGroup.insert({ idUser, title, description });
 		console.log("Grupo inserido com sucesso");
@@ -15,7 +18,24 @@ async function create(req, res) {
 		return res.sendStatus(500);
 	}
 }
+async function getOne(req, res) {
+	const { idGroup } = req.params
+
+	const { TaskGroup } = database.model;
+
+	console.log("id grupooo: " +idGroup)
+
+	try {
+		const result = await TaskGroup.findOne(idGroup)
+
+		console.log("Grupo encontrado: " + result)
+		return res.send(result)
+	} catch (error) {
+		return res.sendStatus(500)
+	}
+}
 async function getAll(req, res) {
+
 	const { TaskGroup } = database.model;
 	try {
 		const result = await TaskGroup.findAll();
@@ -30,9 +50,9 @@ async function getAll(req, res) {
 }
 
 async function deleteGroup(req, res) {
-	const { TaskGroup } = database.model;
 	const { idGroup, title, description } = req.body
 
+	const { TaskGroup } = database.model;
 	console.log(`delGroup: ${title} | ${description}`);
 
 	try {
@@ -44,4 +64,4 @@ async function deleteGroup(req, res) {
 	}
 }
 
-module.exports = { create, getAll, deleteGroup }
+module.exports = { create, getOne, getAll, deleteGroup }
