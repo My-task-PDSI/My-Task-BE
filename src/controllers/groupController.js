@@ -33,5 +33,20 @@ const readAll = async (req, res) => {
     }
 }
 
+const delGroup = async (req, res) => {
+    const { title, description } = req.body
 
-module.exports = { create, readAll }
+    console.log(`delGroup: ${title} | ${description}`);
+
+    try {
+        database.query('DELETE FROM task_group WHERE title=? AND description=?;', [req.body.title, req.body.description], function (err) {
+            if(err) throw err
+            console.log("Grupo deletado com sucesso")
+            return res.sendStatus(200)
+        })
+    } catch (error) {
+        return res.sendStatus(500)
+    }
+}
+
+module.exports = { create, readAll, delGroup }
