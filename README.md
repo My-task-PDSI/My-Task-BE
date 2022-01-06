@@ -21,6 +21,12 @@ commando:
 npm run cli -- drop-db create-db create-tables populate-db
 ```
 
+essa operação pode ser abreviada com o uso do seguinte commando:
+
+```bash
+npm run cli -- clear-db
+```
+
 Para executar o servidor use o comando, ele sera iniciado por padrão no **localhost** na porta **3000**:
 ```bash
 npm start
