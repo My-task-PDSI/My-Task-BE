@@ -8,6 +8,8 @@ const cors = require('./middlewares/cors');
 
 const app = express();
 
+const port = 3000
+
 app.use(cors);
 app.use(session({
 	secret: 'secret',
@@ -24,4 +26,6 @@ app.use('/user', userRouter);
 app.use('/task', taskRouter);
 app.use('/task-groups', taskGroupRouter);
 
-app.listen(3000);
+app.listen(port, function () {
+	console.log(`Servidor rodando no endereço: http://localhost:${port}`)
+});
