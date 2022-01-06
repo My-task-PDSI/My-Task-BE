@@ -4,11 +4,14 @@ const taskRouter = require('./routers/task');
 const taskGroupRouter = require('./routers/taskGroup');
 const userRouter = require('./routers/user');
 const indexRouter = require('./routers');
-const cors = require('./middlewares/cors');
+const cors = require('cors');
+//const cors = require('./middlewares/cors');
 
 const app = express();
 
-app.use(cors);
+app.use(cors({
+	origin:'http://localhost:8080'
+}));
 app.use(session({
 	secret: 'secret',
 	resave: true,
