@@ -23,13 +23,13 @@ async function getOne(req, res) {
 
 	const { TaskGroup } = database.model;
 
-	console.log("id grupooo: " +idGroup)
-
 	try {
 		const result = await TaskGroup.findOne(idGroup)
-
-		console.log("Grupo encontrado: " + result)
-		return res.send(result)
+		if(result){
+			console.log("Grupo encontrado: ",result);
+			return res.send(result)
+		}
+		return res.sendStatus(404);
 	} catch (error) {
 		return res.sendStatus(500)
 	}
