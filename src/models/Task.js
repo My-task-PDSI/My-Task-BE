@@ -14,6 +14,8 @@ class Task {
 			idGroup INT,
 			title VARCHAR(20),
 			description VARCHAR(50),
+			status VARCHAR(50),
+			currentTime DATETIME,
 			creationDate DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 			upadatedDate DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 			FOREIGN KEY (idGroup) REFERENCES ${TaskGroup.TABLE_NAME}(id) ON DELETE CASCADE
@@ -28,9 +30,9 @@ class Task {
 		return result[0];
 	}
 	async insert(task) {
-		const { idGroup, title, description } = task;
-		const sql = `INSERT INTO ${TABLE_NAME}(idGroup, title, description) VALUES (?, ?, ?)`;
-		const result = await this.database.query(sql, [idGroup, title, description]);
+		const { idGroup, title, description, currentTime = null } = task;
+		const sql = `INSERT INTO ${TABLE_NAME}(idGroup, title, description, currentTime) VALUES (?, ?, ?, ?)`;
+		const result = await this.database.query(sql, [idGroup, title, description, currentTime]);
 		return result[0];
 	}
 	async findAllTasksFromGroup(id) {
