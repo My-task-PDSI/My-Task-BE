@@ -5,24 +5,28 @@ async function login(request, response) {
 	const username = request.body.username;
 	const password = request.body.password;
 
-	console.log(`${username}\n${password}`)
-
 	const { User } = database.model;
 	try {
 		if (username && password) {
-			const result = await User.findByNameAndPassword(username, password);
-			console.log("resultado busca: ", result);
+			const result = await User.findByNameAndPassword(username)
 
+			console.log(result)
 			if (result.length > 0) {
+				const comparison = await User.compare(password, result[0].password.toString())
+				
+				if (comparison) {
+					// implementar autenticação
+					console.log("usuário encontrado")
+				}
 				return response.status(200).send({ status: "Usuário encontrado" })
 			}
 			return response.status(404).send({ error: "Usuário não encontrado" });
-
 		}
 		return response.sendStatus(200)
 
 	} catch (error) {
-		return res.sendStatus(500) // ERRO NO SERVIDOR
+		console.log(error)
+		return response.sendStatus(500) // ERRO NO SERVIDOR
 	}
 }
 
