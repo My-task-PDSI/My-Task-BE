@@ -19,7 +19,7 @@ class User {
 		return true;
 	}
 	async insert(user) {
-		const {name, username, password, email} = user;
+		const { name, username, password, email } = user;
 		const sql = `INSERT INTO ${TABLE_NAME}(name, username, password, email) VALUES(?,?,?,?)`;
 		const result = await this.database.query(sql, [name, username, password, email]);
 		return result[0];
@@ -41,7 +41,12 @@ class User {
 	}
 	async deleteWithEmail(email) {
 		const sql = `DELETE  FROM ${TABLE_NAME} WHERE email = ?`;
-		const result =await this.database.query(sql, [email]);
+		const result = await this.database.query(sql, [email]);
+		return result[0];
+	}
+	async updateWithUsername(username, newName, newPassword, newEmail) {
+		const sql = `UPDATE User SET  email = ?, name = ?, password = ?  WHERE username =?`;
+		const result = await this.database.query(sql, [newEmail, newName, newPassword, username]);
 		return result[0];
 	}
 
