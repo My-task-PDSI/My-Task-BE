@@ -104,7 +104,7 @@ async function executeCommands(args) {
 		'drop-db': dropDatabase,
 		'create-tables': createAllTables,
 		'populate-db': populateDatabase,
-		'clear-db': async() =>{
+		'clear-db': async () => {
 			await dropDatabase();
 			await createDatabase();
 			await createAllTables();

@@ -1,32 +1,37 @@
 const { database, initialize } = require("../models/database");
 initialize();
 
-async function login(request, response) {
-	const username = request.body.username;
-	const password = request.body.password;
+async function login(req, res) {
+	const username = req.body.username;
+	const password = req.body.password;
 
 	const { User } = database.model;
 	try {
-		if (username && password) {
-			const result = await User.findByName(username)
-
-			console.log(result)
-			if (result.length > 0) {
-				const comparison = await User.compare(password, result[0].password.toString())
-				
-				console.log(comparison)
-				if (comparison) {
-					// implementar autenticação
-					return response.status(200).send({ status: "Usuário encontrado" })
-				}
-			}
-			return response.status(404).send({ error: "Usuário não encontrado" });
+		if (!username || !password) {
+			return res.status(404).send({ error: "informe os campos" });
 		}
-		return response.sendStatus(200)
+		const [result] = await User.findByUsername(username);
+		if (!result) {
+			return res.status(404).send({ error: "Usuário não encontrado" });
+		}
+		console.log(result)
+		const comparison = await User.compare(password, result.password);
+
+		console.log(comparison)
+		if (comparison) {
+			const userInfo = {
+				id: result.id,
+				name: result.name,
+				username: result.username,
+				email: result.email
+			};
+			return res.status(200).send({ user: userInfo });
+		}
+		return res.status(404).send({ error: "usuario ou senha invalida" });
 
 	} catch (error) {
 		console.log(error)
-		return response.sendStatus(500) // ERRO NO SERVIDOR
+		return res.sendStatus(500) // ERRO NO SERVIDOR
 	}
 }
 
