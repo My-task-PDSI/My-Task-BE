@@ -8,17 +8,17 @@ async function login(request, response) {
 	const { User } = database.model;
 	try {
 		if (username && password) {
-			const result = await User.findByNameAndPassword(username)
+			const result = await User.findByName(username)
 
 			console.log(result)
 			if (result.length > 0) {
 				const comparison = await User.compare(password, result[0].password.toString())
 				
+				console.log(comparison)
 				if (comparison) {
 					// implementar autenticação
-					console.log("usuário encontrado")
+					return response.status(200).send({ status: "Usuário encontrado" })
 				}
-				return response.status(200).send({ status: "Usuário encontrado" })
 			}
 			return response.status(404).send({ error: "Usuário não encontrado" });
 		}

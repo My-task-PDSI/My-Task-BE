@@ -41,7 +41,7 @@ class User {
 
 		return isEqual
 	}
-	async findByNameAndPassword(name) {
+	async findByName(name) {
 		const sql = `SELECT * FROM ${TABLE_NAME} WHERE username = ?`;
 		const result = await this.database.query(sql, [name]);
 		return result[0];
