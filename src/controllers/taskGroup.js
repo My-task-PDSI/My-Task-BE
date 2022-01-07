@@ -35,11 +35,17 @@ async function getAll(req, res) {
 	const { TaskGroup } = database.model;
 	try {
 		const result = await TaskGroup.findAll();
-		if (result) {
-			return res.send(result);
-		} else {
-			return res.sendStatus(404);
-		}
+		return res.send(result);
+	} catch (error) {
+		return res.sendStatus(500); // ERRO INTERNO DO SERVIDOR
+	}
+}
+async function getGroupsOfUser(req, res) {
+	const { idUser } = req.params;
+	const { TaskGroup } = database.model;
+	try {
+		const result = await TaskGroup.findByIdUser(idUser);
+		return res.send(result);
 	} catch (error) {
 		return res.sendStatus(500); // ERRO INTERNO DO SERVIDOR
 	}
@@ -74,4 +80,4 @@ async function deleteGroup(req, res) {
 	}
 }
 
-module.exports = { create, getOne, getAll, update, deleteGroup }
+module.exports = { create, getOne, getAll, update, deleteGroup , getGroupsOfUser}

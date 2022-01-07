@@ -9,5 +9,6 @@ router.get('/:idGroup', taskGroupController.getOne);
 router.put('/:idGroup', taskGroupController.update);
 router.delete('/:idGroup', taskGroupController.deleteGroup);
 router.get('/tasks/:idGroup', taskController.findAllTasksFromGroup);
+router.get('/user/:idUser', taskGroupController.getGroupsOfUser);
 
 module.exports = router;
