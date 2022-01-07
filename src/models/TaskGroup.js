@@ -43,6 +43,11 @@ class TaskGroup {
 		const result = await this.database.query(sql, [id])
 		return result[0]
 	}
+	async findByIdUser(id) {
+		const sql = `SELECT * FROM ${TABLE_NAME} WHERE idUser = ?`
+		const result = await this.database.query(sql, [id])
+		return result[0]
+	}
 	async findAll() {
 		const sql = `SELECT * FROM ${TABLE_NAME}`;
 		const result = await this.database.query(sql);

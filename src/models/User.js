@@ -1,7 +1,8 @@
 const TABLE_NAME = 'User';
 
 const bcrypt = require("bcrypt")
-const saltRounds = 10
+const saltRounds = 10;
+const generatedSalt = bcrypt.genSaltSync(saltRounds);
 
 class User {
 	constructor(database) {
@@ -15,7 +16,7 @@ class User {
 			name VARCHAR(30), 
 			username VARCHAR(20),
 			email VARCHAR(50), 
-			password BINARY(60)
+			password CHAR(60)
 		 )`;
 		this.isCreated = true;
 		await this.database.query(sql);
@@ -26,10 +27,9 @@ class User {
 		
 		const sql = `INSERT INTO ${TABLE_NAME}(name, username, password, email) VALUES(?,?,?,?)`;
 		
-		const salt = bcrypt.genSaltSync(saltRounds) 
-		const hash = bcrypt.hashSync(password, salt)
+		const hash = bcrypt.hashSync(password, generatedSalt);
 		
-		console.log(`Senha criptografada: ${hash}`)
+		console.log(`Senha criptografada: ${hash.length}, ${typeof hash}`)
 		
 		const result = await this.database.query(sql, [name, username, hash, email]);
 		
@@ -41,9 +41,9 @@ class User {
 
 		return isEqual
 	}
-	async findByName(name) {
+	async findByUsername(username) {
 		const sql = `SELECT * FROM ${TABLE_NAME} WHERE username = ?`;
-		const result = await this.database.query(sql, [name]);
+		const result = await this.database.query(sql, [username]);
 		return result[0];
 	}
 	async findUser(name, username, email) {

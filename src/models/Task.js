@@ -30,13 +30,13 @@ class Task {
 		return result[0];
 	}
 	async insert(task) {
-		const { idGroup, title, description, status, currentTime = null } = task;
-		const sql = `INSERT INTO ${TABLE_NAME}(idGroup, title, description, currentTime) VALUES (?, ?, ?, ?, ?)`;
+		const { idGroup, title, description, status = null, currentTime = null } = task;
+		const sql = `INSERT INTO ${TABLE_NAME}(idGroup, title, description, status, currentTime) VALUES (?, ?, ?, ?, ?)`;
 		const result = await this.database.query(sql, [idGroup, title, description, status, currentTime]);
 		return result[0];
 	}
 	async update(task) {
-		const { id, title, description, status, currentTime = null } = task;
+		const { id, title, description, status = null, currentTime = null } = task;
 		const sql = `UPDATE ${TABLE_NAME} SET title = ?, description = ?, status = ?, currentTime = ? WHERE id = ?`;
 		const result = await this.database.query(sql, [title, description, status, currentTime, id]);
 		return result[0];
