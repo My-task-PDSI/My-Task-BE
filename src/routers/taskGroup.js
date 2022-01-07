@@ -4,10 +4,10 @@ const taskGroupController = require('../controllers/taskGroup');
 const taskController = require('../controllers/task');
 
 router.post('/', taskGroupController.create);
-router.delete('/', taskGroupController.deleteGroup);
-
 router.get('/all', taskGroupController.getAll);
-router.get('/:idGroup', taskGroupController.getOne)
+router.get('/:idGroup', taskGroupController.getOne);
+router.put('/:idGroup', taskGroupController.update);
+router.delete('/:idGroup', taskGroupController.deleteGroup);
 router.get('/tasks/:idGroup', taskController.findAllTasksFromGroup);
 
 module.exports = router;

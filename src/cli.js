@@ -93,7 +93,7 @@ async function test() {
 		await databaseModule.initialize();
 		const database = databaseModule.database;
 		const { User } = database.model;
-		console.log(await User.deleteWithEmail(1));
+		console.log(await User.deleteByEmail(1));
 	} catch (error) {
 		console.log('Error: ', error.message)
 	}

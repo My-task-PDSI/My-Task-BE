@@ -27,14 +27,20 @@ class TaskGroup {
 		const result = await this.database.query(sql, [idUser, title, description]);
 		return result[0];
 	}
-	async delete(id) {
+	async update(taskGroup) {
+		const { id, title, description } = taskGroup;
+		const sql = `UPDATE ${TABLE_NAME} SET title = ?, description = ? WHERE id = ?`;
+		const result = await this.database.query(sql, [title, description, id]);
+		return result[0];
+	}
+	async deleteById(id) {
 		const sql = `DELETE FROM ${TABLE_NAME} WHERE id = ?`;
 		const result = await this.database.query(sql, [id]);
 		return result[0];
 	}
-	async findOne(idGroup) {
+	async findById(id) {
 		const sql = `SELECT * FROM ${TABLE_NAME} WHERE id = ?`
-		const result = await this.database.query(sql, [idGroup])
+		const result = await this.database.query(sql, [id])
 		return result[0]
 	}
 	async findAll() {

@@ -24,7 +24,7 @@ class Task {
 		await this.database.query(sql);
 		return true;
 	}
-	async findByPk(id) {
+	async findById(id) {
 		const sql = `SELECT * FROM ${TABLE_NAME} WHERE id = ?`;
 		const result = await this.database.query(sql, [id]);
 		return result[0];
@@ -41,7 +41,7 @@ class Task {
 		const result = await this.database.query(sql, [title, description, status, currentTime, id]);
 		return result[0];
 	}
-	async findAllTasksFromGroup(id) {
+	async findAllByIdGroup(id) {
 		const sql = `SELECT * FROM ${TABLE_NAME} WHERE idGroup = ?`;
 		const result = await this.database.query(sql, [id]);
 		return result[0];
