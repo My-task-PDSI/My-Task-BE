@@ -1,19 +1,16 @@
 const { database, initialize } = require("../models/database");
 initialize();
 
-
-
 async function create(req, res) {
 	const { title, description, idUser } = req.body
-
 	const { TaskGroup } = database.model;
-
-	console.log(`newGroup: ${title} | ${description}`);
-
 	try {
-		await TaskGroup.insert({ idUser, title, description });
-		console.log("Grupo inserido com sucesso");
-		return res.sendStatus(200);
+		const { insertId, affectedRows } = await TaskGroup.insert({ idUser, title, description });
+		if (affectedRows > 0) {
+			console.log("Grupo inserido com sucesso");
+			return res.status(200).send({ id: insertId });
+		}
+		return res.sendStatus(500);
 	} catch (error) {
 		return res.sendStatus(500);
 	}
@@ -24,10 +21,9 @@ async function getOne(req, res) {
 	const { TaskGroup } = database.model;
 
 	try {
-		const result = await TaskGroup.findOne(idGroup)
-		if(result){
-			console.log("Grupo encontrado: ",result);
-			return res.send(result)
+		const result = await TaskGroup.findById(idGroup);
+		if (result) {
+			return res.status(200).send(result);
 		}
 		return res.sendStatus(404);
 	} catch (error) {
@@ -48,20 +44,34 @@ async function getAll(req, res) {
 		return res.sendStatus(500); // ERRO INTERNO DO SERVIDOR
 	}
 }
-
-async function deleteGroup(req, res) {
-	const { idGroup, title, description } = req.body
-
+async function update(req, res) {
+	const { idGroup } = req.params;
+	const { title, description } = req.body;
 	const { TaskGroup } = database.model;
-	console.log(`delGroup: ${title} | ${description}`);
-
 	try {
-		await TaskGroup.delete(idGroup);
+		const { affectedRows } = await TaskGroup.update({ id: idGroup, title, description });
+		if (affectedRows > 0) {
+			console.log("Grupo atualizado com sucesso");
+			return res.sendStatus(200);
+		}
+		return res.sendStatus(500);
+	} catch (error) {
+		return res.sendStatus(500);
+	}
+}
+async function deleteGroup(req, res) {
+	const { idGroup } = req.params;
+	const { TaskGroup } = database.model;
+	try {
+		const { affectedRows } = await TaskGroup.deleteById(idGroup);
+		if (affectedRows > 0) {
 			console.log("Grupo deletado com sucesso");
 			return res.sendStatus(200);
+		}
+		return res.sendStatus(500);
 	} catch (error) {
 		return res.sendStatus(500);
 	}
 }
 
-module.exports = { create, getOne, getAll, deleteGroup }
+module.exports = { create, getOne, getAll, update, deleteGroup }

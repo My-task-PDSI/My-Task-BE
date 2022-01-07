@@ -10,7 +10,7 @@ async function login(request, response) {
 	const { User } = database.model;
 	try {
 		if (username && password) {
-			const result = await User.findWithNameAndPassword(username, password);
+			const result = await User.findByNameAndPassword(username, password);
 			console.log("resultado busca: ", result);
 
 			if (result.length > 0) {
@@ -49,9 +49,9 @@ async function deleteUser(req, res) {
 	const { email } = req.body
 	const { User } = database.model;
 	try {
-		const user = await User.findWithEmail(email);
+		const user = await User.findByEmail(email);
 		if (user.length > 0) {
-			await User.deleteWithEmail(email);
+			await User.deleteByEmail(email);
 			return res.status(200).send({ status: "Usuario deletado" });
 		} else {
 			return res.status(404).send({ error: "Usuario Nao Encontrado" });
@@ -78,7 +78,7 @@ async function alterUser(req, res) {
 			}
 		}
 		if (email !== undefined) {
-			const user = await User.findWithEmail(email);
+			const user = await User.findByEmail(email);
 			if (user.length > 0) {
 				console.log("Email ja cadastrado");
 				return res.status(403).send({ error: "Email ja cadastrado" });
@@ -101,11 +101,11 @@ async function updatateUserQuery(req, res) {
 	const userName = req.params.userName
 	try {
 		console.log("Deletando usuario");
-		const user = await User.findWithEmail(email);
+		const user = await User.findByEmail(email);
 		var newPassword = password !== undefined ? password : user[0].password;
 		var newName = name !== undefined ? name : user[0].name;
 		var newEmail = email !== undefined ? email : user[0].email;
-		await User.updateWithUsername(userName, newName, newPassword, newEmail);
+		await User.updateByUsername(userName, newName, newPassword, newEmail);
 		console.log("Usuario Alterado - ", userName);
 		return res.status(200).send({ status: "Alteracoes Realizadas" });
 	} catch (error) {
