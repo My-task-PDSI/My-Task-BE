@@ -24,7 +24,7 @@ class User {
 		const result = await this.database.query(sql, [name, username, password, email]);
 		return result[0];
 	}
-	async findWithNameAndPassword(name, password) {
+	async findByNameAndPassword(name, password) {
 		const sql = `SELECT * FROM ${TABLE_NAME} WHERE username = ? AND password = ?`;
 		const result = await this.database.query(sql, [name, password]);
 		return result[0];
@@ -34,17 +34,17 @@ class User {
 		const result = await this.database.query(sql, [name, username, email]);
 		return result[0];
 	}
-	async findWithEmail(email) {
+	async findByEmail(email) {
 		const sql = `SELECT * FROM ${TABLE_NAME} WHERE email = ?`;
 		const result = await this.database.query(sql, [email]);
 		return result[0];
 	}
-	async deleteWithEmail(email) {
+	async deleteByEmail(email) {
 		const sql = `DELETE  FROM ${TABLE_NAME} WHERE email = ?`;
 		const result = await this.database.query(sql, [email]);
 		return result[0];
 	}
-	async updateWithUsername(username, newName, newPassword, newEmail) {
+	async updateByUsername(username, newName, newPassword, newEmail) {
 		const sql = `UPDATE User SET  email = ?, name = ?, password = ?  WHERE username =?`;
 		const result = await this.database.query(sql, [newEmail, newName, newPassword, username]);
 		return result[0];
