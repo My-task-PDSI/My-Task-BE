@@ -9,7 +9,7 @@ async function create(req, res) {
 
 		if (result.affectedRows === 1) {
 			console.log("Tarefa criada com sucesso!");
-			return res.sendStatus(200);
+			return res.status(200).send({ id: result.insertId });
 		}
 		return res.sendStatus(500);
 
