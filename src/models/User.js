@@ -29,8 +29,6 @@ class User {
 		
 		const hash = bcrypt.hashSync(password, generatedSalt);
 		
-		console.log(`Senha criptografada: ${hash.length}, ${typeof hash}`)
-		
 		const result = await this.database.query(sql, [name, username, hash, email]);
 		
 		return result[0];

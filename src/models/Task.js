@@ -41,6 +41,11 @@ class Task {
 		const result = await this.database.query(sql, [title, description, status, currentTime, id]);
 		return result[0];
 	}
+	async setExpiredById(id) {
+		const sql = `UPDATE ${TABLE_NAME} SET status = 'blocked' WHERE id = ?`;
+		const result = await this.database.query(sql, [id]);
+		return result[0];
+	}
 	async findAllByIdGroup(id) {
 		const sql = `SELECT * FROM ${TABLE_NAME} WHERE idGroup = ?`;
 		const result = await this.database.query(sql, [id]);
@@ -48,6 +53,25 @@ class Task {
 	}
 	async deleteById(id) {
 		const sql = `DELETE FROM ${TABLE_NAME} WHERE id = ?`;
+		const result = await this.database.query(sql, [id]);
+		return result[0];
+	}
+	async getAllExpired() {
+		const sql = `SELECT * FROM ${TABLE_NAME} WHERE status != 'completed' AND currentTime < NOW()`;
+		const result = await this.database.query(sql);
+		return result[0];
+	}
+	async getAllExpiredWithIdUser() {
+		const subQuery = `SELECT t.*,  g.idUser AS idUser FROM ${TABLE_NAME} AS t JOIN ${TaskGroup.TABLE_NAME} AS g WHERE g.id = t.idGroup`;
+		const whereQuery = `status != 'completed' AND currentTime <now()`;
+		const sql = `SELECT * FROM (${subQuery}) AS result WHERE ${whereQuery}`;
+		const result = await this.database.query(sql);
+		return result[0];
+	}
+	async getAllExpiredByIdUser(id) {
+		const subQuery = `SELECT t.*,  g.idUser AS idUser FROM ${TABLE_NAME} AS t JOIN ${TaskGroup.TABLE_NAME} AS g WHERE g.id = t.idGroup`;
+		const whereQuery = `idUser = ? AND status != 'completed' AND currentTime <now()`;
+		const sql = `SELECT * FROM (${subQuery}) AS result WHERE ${whereQuery}`;
 		const result = await this.database.query(sql, [id]);
 		return result[0];
 	}
