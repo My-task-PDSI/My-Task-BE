@@ -5,7 +5,7 @@ const taskGroupRouter = require('./routers/taskGroup');
 const userRouter = require('./routers/user');
 const indexRouter = require('./routers');
 const cors = require('cors');
-//const cors = require('./middlewares/cors');
+const notifications = require('./services/notification');
 
 const app = express();
 
@@ -27,4 +27,5 @@ app.use('/user', userRouter);
 app.use('/task', taskRouter);
 app.use('/task-groups', taskGroupRouter);
 
+notifications.start();
 app.listen(3000);
