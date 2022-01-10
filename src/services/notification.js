@@ -5,7 +5,7 @@ function sleep(ms) {
 		setTimeout(resolve, ms);
 	});
 }
-async function start(ms = 1000) {
+async function start(socketArray, ms = 1000) {
 	await initialize();
 	const { Task, Notification } = database.model;
 	console.log('iniciando sistema de notificaoes...')
@@ -22,10 +22,18 @@ async function start(ms = 1000) {
 				message: `task "${task.title}" is expired!`
 			};
 			await Notification.insert(newNotification);
-			console.log('nova notificacao criada',newNotification);
+			console.log('nova notificacao criada', newNotification);
 			await Task.setExpiredById(task.id);
 		}
-		//const notificationsNotSeen = Notification.allNotSeen();
+		const notificationsNotSeen = await Notification.allNotSeen();
+		console.log(Object.keys(socketArray));
+		notificationsNotSeen.forEach(notification => {
+			const idUser = notification.idUser;
+			if (socketArray.hasOwnProperty(idUser)) {
+				const socket = socketArray[idUser];
+				socket.emit('notification', notification);
+			}
+		});
 		await sleep(ms);
 	}
 };

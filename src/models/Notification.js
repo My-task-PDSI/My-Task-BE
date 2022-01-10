@@ -31,7 +31,7 @@ class Notification {
 	}
 	async allNotSeen() {
 		const sql = `SELECT * FROM ${TABLE_NAME} WHERE viewed = FALSE`;
-		const result = await this.database.query(sql, [id, idTask, message]);
+		const result = await this.database.query(sql);
 		return result[0];
 	}
 	async getAll() {
