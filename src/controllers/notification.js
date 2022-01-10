@@ -11,5 +11,14 @@ async function getAllOfUser(req, res) {
 		return res.sendStatus(500);
 	}
 }
-
-module.exports = { getAllOfUser }
+async function userHasNotification(req, res) {
+	const idUser = req.params.idUser;
+	const { Notification } = database.model;
+	try {
+		const result = await Notification.userHasNotification(idUser);
+		return res.send({ exists: (!!result) });
+	} catch (error) {
+		return res.sendStatus(500);
+	}
+}
+module.exports = { getAllOfUser, userHasNotification }

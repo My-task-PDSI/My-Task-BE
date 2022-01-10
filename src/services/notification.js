@@ -26,7 +26,6 @@ async function start(socketArray, ms = 1000) {
 			await Task.setExpiredById(task.id);
 		}
 		const notificationsNotSeen = await Notification.allNotSeen();
-		console.log(Object.keys(socketArray));
 		notificationsNotSeen.forEach(notification => {
 			const idUser = notification.idUser;
 			if (socketArray.hasOwnProperty(idUser)) {

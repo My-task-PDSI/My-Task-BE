@@ -44,6 +44,11 @@ class Notification {
 		const result = await this.database.query(sql, [id]);
 		return result[0];
 	}
+	async userHasNotification(id) {
+		const sql = `SELECT * FROM ${TABLE_NAME} WHERE idUser = ? AND viewed = FALSE LIMIT 1`;
+		const result = await this.database.query(sql, [id]);
+		return result[0];
+	}
 }
 
 module.exports = {
