@@ -47,7 +47,7 @@ class Task {
     return result[0];
   }
   async findAllByIdGroup(id) {
-    const sql = `SELECT * FROM ${TABLE_NAME} WHERE idGroup = ?`;
+    const sql = `SELECT * FROM ${TABLE_NAME} WHERE idGroup = ? ORDER BY currentTime DESC`;
     const result = await this.database.query(sql, [id]);
     return result[0];
   }
