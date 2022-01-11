@@ -13,13 +13,13 @@ const notifications = require('./services/notification');
 const app = express();
 
 app.use(cors({
-	origin:'http://localhost:8080'
+  origin:'http://localhost:8080'
 }));
 
 app.use(session({
-	secret: 'secret',
-	resave: true,
-	saveUninitialized: true
+  secret: 'secret',
+  resave: true,
+  saveUninitialized: true
 }));
 
 app.use(express.urlencoded({extended : true}));
@@ -33,7 +33,7 @@ app.use('/task-groups', taskGroupRouter);
 
 const server = http.Server(app);
 const socketIO = io(server,{
-	cors: {
+  cors: {
     origin: 'http://localhost:8080',
     credentials: true
   }
@@ -44,7 +44,7 @@ const socketArray = {};
 socketIO.on('connection', function(socket){
 
   socket.on('open', function(idUser){
-		socketArray[idUser] = socket;
+    socketArray[idUser] = socket;
   });
 
 });
@@ -54,6 +54,6 @@ socketIO.on('disconnect', function(socket){
   });
 });
 server.listen(3000, function(){
-	notifications.start(socketArray);
+  notifications.start(socketArray);
   console.log('Servidor rodando em: http://localhost:3000');
 });
