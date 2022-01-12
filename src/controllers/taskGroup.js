@@ -18,14 +18,19 @@ async function create(req, res) {
 async function getOne(req, res) {
   const { idGroup } = req.params
 
-  const { TaskGroup } = database.model;
+  const { Task, TaskGroup , UserAndGroupRelationship: UserGroup} = database.model;
 
   try {
-    const result = await TaskGroup.findById(idGroup);
-    if (result) {
-      return res.status(200).send(result);
+    const response = {};
+    const [group] = await TaskGroup.findById(idGroup);
+    if (!group) {
+      return res.sendStatus(404);
     }
-    return res.sendStatus(404);
+    response.group = group;
+    response.tasks = await Task.findAllByIdGroup(idGroup);
+    response.members = await UserGroup.findAlMembersGroup(idGroup);
+
+    return res.status(200).send(response);
   } catch (error) {
     return res.sendStatus(500)
   }
