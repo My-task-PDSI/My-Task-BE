@@ -129,12 +129,11 @@ async function getAll(req, res) {
   const { User } = database.model
 
   try {
-    const allUsers = User.findAllUsers()
-    return res.status(200).send({ allUsers })
+    const allUsers = await User.findAllUsers()
+    return res.send({ allUsers })
   } catch (error) {
     return res.status(500).send({ error: "Erro na recuperação de usuários" })
   }
-  console.log(idUser)
 
 }
 module.exports = { login, signup, deleteUser, alterUser, updatateUserQuery, getAll}
