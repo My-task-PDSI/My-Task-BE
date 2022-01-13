@@ -49,6 +49,12 @@ class User {
     const result = await this.database.query(sql, [name, username, email]);
     return result[0];
   }
+
+  async findAllUsers() {
+    const sql = `SELECT * FROM ${TABLE_NAME}`
+    const result = await this.database.query(sql)
+    return result
+  }
   async findByEmail(email) {
     const sql = `SELECT * FROM ${TABLE_NAME} WHERE email = ?`;
     const result = await this.database.query(sql, [email]);
