@@ -8,6 +8,7 @@ const taskRouter = require('./routers/task');
 const taskGroupRouter = require('./routers/taskGroup');
 const userRouter = require('./routers/user');
 const indexRouter = require('./routers');
+const notificationsRouter = require('./routers/notification')
 const notifications = require('./services/notification');
 
 const app = express();
@@ -25,6 +26,7 @@ app.use(session({
 app.use(express.urlencoded({extended : true}));
 app.use(express.json());
 
+app.use('/', notificationsRouter)
 app.use('/', indexRouter);
 app.use('/home', indexRouter);
 app.use('/user', userRouter);
