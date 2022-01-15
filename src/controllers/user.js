@@ -71,16 +71,10 @@ async function deleteUser(req, res) {
 }
 
 async function alterUser(req, res) {
-  const { password, name, email } = req.body
+  const { name, email } = req.body
   const userName = req.params.userName
   const { User } = database.model;
   try {
-
-    if (password !== undefined) {
-      if (password.trim().length < 5) {
-        return res.status(403).send({ error: "Senha invalida" });
-      }
-    }
     if (name !== undefined) {
       if (name.trim().length < 3) {
         return res.status(403).send({ error: "Nome invalido" });
@@ -105,22 +99,35 @@ async function alterUser(req, res) {
 }
 
 async function updatateUserQuery(req, res) {
-  const { password, name, email } = req.body
+  const {name, email } = req.body
   const { User } = database.model;
   const userName = req.params.userName
   try {
     console.log("Deletando usuario");
     const user = await User.findByEmail(email);
-    var newPassword = password !== undefined ? password : user[0].password;
     var newName = name !== undefined ? name : user[0].name;
     var newEmail = email !== undefined ? email : user[0].email;
-    await User.updateByUsername(userName, newName, newPassword, newEmail);
+    await User.updateByUsername(userName, newName, newEmail);
     console.log("Usuario Alterado - ", userName);
     return res.status(200).send({ status: "Alteracoes Realizadas" });
   } catch (error) {
     console.log(error);
     res.status(500).send({ error: "Erro no update do usuario" });
   }
+}
+
+async function getuserByUsername(req, res) {
+  const userName = req.params.username;
+  console.log("Buscando usuario");
+  const { User } = database.model
+
+  try {
+    const userReturn = await User.findByUsername(userName)
+    return res.send( userReturn[0] );
+  } catch (error) {
+    return res.status(500).send({ error: "Erro na recuperação de usuários" })
+  }
+
 }
 
 async function getAll(req, res) {
@@ -136,4 +143,4 @@ async function getAll(req, res) {
   }
 
 }
-module.exports = { login, signup, deleteUser, alterUser, updatateUserQuery, getAll}
+module.exports = { login, signup, deleteUser, alterUser, updatateUserQuery, getAll, getuserByUsername}

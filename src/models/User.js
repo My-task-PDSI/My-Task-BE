@@ -65,9 +65,9 @@ class User {
     const result = await this.database.query(sql, [email]);
     return result[0];
   }
-  async updateByUsername(username, newName, newPassword, newEmail) {
-    const sql = `UPDATE User SET  email = ?, name = ?, password = ?  WHERE username =?`;
-    const result = await this.database.query(sql, [newEmail, newName, newPassword, username]);
+  async updateByUsername(username, newName, newEmail) {
+    const sql = `UPDATE User SET  email = ?, name = ?  WHERE username =?`;
+    const result = await this.database.query(sql, [newEmail, newName, username]);
     return result[0];
   }
 
