@@ -75,7 +75,6 @@ async function alterUser(req, res) {
   const userName = req.params.userName
   const { User } = database.model;
   try {
-    console.log("Vora")
     if (name !== undefined) {
       if (name.trim().length < 3) {
         return res.status(403).send({ error: "Nome invalido" });
