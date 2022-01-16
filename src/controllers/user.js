@@ -81,12 +81,12 @@ async function alterUser(req, res) {
       }
     }
     if (email !== undefined) {
-      const user = await User.findByEmail(email);
-      if (user.length > 0) {
+      const [user] = await User.findByEmail(email);
+      
+      if (user!= undefined && user.username != userName) {
         console.log("Email ja cadastrado");
         return res.status(403).send({ error: "Email ja cadastrado" });
       } else {
-
         return await updatateUserQuery(req, res);
       }
     } else {
@@ -103,7 +103,7 @@ async function updatateUserQuery(req, res) {
   const { User } = database.model;
   const userName = req.params.userName
   try {
-    console.log("Deletando usuario");
+    console.log("atualizando usuario");
     const user = await User.findByEmail(email);
     var newName = name !== undefined ? name : user[0].name;
     var newEmail = email !== undefined ? email : user[0].email;
@@ -143,4 +143,23 @@ async function getAll(req, res) {
   }
 
 }
-module.exports = { login, signup, deleteUser, alterUser, updatateUserQuery, getAll, getuserByUsername}
+
+async function updatePassword(req, res){
+  const userName = req.params.userName;
+  const newPassword = req.body.newPassword;
+  const actualPassword = req.body.actual;
+  const { User } = database.model
+  const [result] = await User.findByUsername(userName);
+    const comparison = await User.compare(actualPassword, result.password);
+    if (!comparison) {
+      return res.status(400).send({error: "Senha inválida"});
+    }
+  if(newPassword < 6){
+    return res.status(403).send({error: "Senha inválida"});
+  }else{
+    await User.updatePassword(userName,newPassword);
+    return  res.status(200).send({ status: "Senha alterada" });
+  }
+
+}
+module.exports = { login, signup, deleteUser, alterUser, updatateUserQuery, getAll, getuserByUsername, updatePassword}

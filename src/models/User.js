@@ -34,6 +34,15 @@ class User {
     return result[0];
       
   }
+
+  async updatePassword(username, password){
+
+    const sql = `UPDATE User SET  password = ?  WHERE username =?`;
+    const hash = bcrypt.hashSync(password, generatedSalt);
+    const result = await this.database.query(sql,[hash, username]);
+    return result[0];
+
+  }
   async compare(passwordREQ, passwordDB) {
     const isEqual = await bcrypt.compareSync(passwordREQ, passwordDB)
 

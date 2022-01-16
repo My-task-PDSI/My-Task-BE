@@ -7,6 +7,7 @@ router.get('/username/:username', userController.getuserByUsername)
 router.post('/login', userController.login)
 router.post('/signup', userController.signup)
 router.delete('/signup', userController.deleteUser)
+router.put('/signup/password/:userName', userController.updatePassword)
 router.put('/signup/:userName', userController.alterUser)
 
 module.exports = router;
