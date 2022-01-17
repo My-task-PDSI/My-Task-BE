@@ -7,7 +7,7 @@ function sleep(ms) {
 }
 async function start(socketArray, ms = 1000) {
 	await initialize();
-	const { Task, Notification } = database.model;
+	const { Task, Notification, TaskGroup } = database.model;
 	console.log('iniciando sistema de notificaoes...')
 	while (true) {
 		try {
@@ -18,10 +18,12 @@ async function start(socketArray, ms = 1000) {
 				return allNotifications.every(notification => notification.idTask != task.id);
 			});
 			for (const task of addTaskArray) {
+				const group = await TaskGroup.findById(task.idGroup)
 				const newNotification = {
 					idTask: task.id,
 					idUser: task.idUser,
-					message: `task "${task.title}" is expired!`
+					groupTitle: group[0].title,
+					message: `tarefa "${task.title}" atingiu seu prazo!`
 				};
 				await Notification.insert(newNotification);
 				console.log('nova notificacao criada', newNotification);

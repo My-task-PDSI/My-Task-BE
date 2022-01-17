@@ -13,6 +13,7 @@ class Notification {
       id INT PRIMARY KEY AUTO_INCREMENT,
       idTask INT,
       idUser INT,
+      groupTitle VARCHAR(20),
       message VARCHAR(40),
       viewed BOOLEAN DEFAULT FALSE,
       creationDate DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -24,9 +25,9 @@ class Notification {
     return true;
   }
   async insert(notification) {
-    const { idTask, idUser, message } = notification;
-    const sql = `INSERT INTO ${TABLE_NAME}(idTask, idUser, message) VALUES (?, ?, ?)`;
-    const result = await this.database.query(sql, [idTask, idUser, message]);
+    const { idTask, idUser, groupTitle, message } = notification;
+    const sql = `INSERT INTO ${TABLE_NAME}(idTask, idUser, groupTitle, message) VALUES (?, ?, ?, ?)`;
+    const result = await this.database.query(sql, [idTask, idUser, groupTitle, message]);
     return result[0];
   }
   async allNotSeen() {
