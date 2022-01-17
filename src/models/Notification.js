@@ -14,7 +14,7 @@ class Notification {
       idTask INT,
       idUser INT,
       groupTitle VARCHAR(20),
-      message VARCHAR(40),
+      message VARCHAR(100),
       viewed BOOLEAN DEFAULT FALSE,
       creationDate DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
       upadatedDate DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
