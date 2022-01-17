@@ -52,7 +52,7 @@ async function populateDatabase() {
         {
           name: `user${index}`,
           username: `name${index}`,
-          password: `pwd${index}`,
+          password: `adminadmin`,
           email: `email${index}`
         }
       );
